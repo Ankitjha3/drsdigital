@@ -97,7 +97,7 @@ export default function EditProductPage() {
       } else {
         router.push("/admin/products");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -185,7 +185,7 @@ export default function EditProductPage() {
               <label className="block text-sm font-medium mb-2">
                 Product Image
               </label>
-              <UploadButton<OurFileRouter>
+              <UploadButton<OurFileRouter, "productImage">
                 endpoint="productImage"
                 onClientUploadComplete={(res) => {
                   if (res && res[0]) {
@@ -198,6 +198,7 @@ export default function EditProductPage() {
               />
               {imageUrl && (
                 <div className="mt-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imageUrl} alt="Preview" className="w-32 h-32 object-cover rounded" />
                 </div>
               )}
@@ -207,7 +208,7 @@ export default function EditProductPage() {
               <label className="block text-sm font-medium mb-2">
                 Digital File (ZIP/PDF)
               </label>
-              <UploadButton<OurFileRouter>
+              <UploadButton<OurFileRouter, "productFile">
                 endpoint="productFile"
                 onClientUploadComplete={(res) => {
                   if (res && res[0]) {

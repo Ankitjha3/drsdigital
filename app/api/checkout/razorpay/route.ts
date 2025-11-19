@@ -4,10 +4,15 @@ import { authOptions } from "@/lib/auth";
 import Razorpay from "razorpay";
 import { prisma } from "@/lib/prisma";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "",
-});
+const getRazorpayInstance = () => {
+  if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    return null;
+  }
+  return new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+};
 
 export async function POST(request: Request) {
   try {
@@ -42,6 +47,15 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Order already processed" },
         { status: 400 }
+      );
+    }
+
+    const razorpay = getRazorpayInstance();
+    
+    if (!razorpay) {
+      return NextResponse.json(
+        { error: "Payment gateway not configured" },
+        { status: 500 }
       );
     }
 

@@ -10,6 +10,7 @@ export default function Banner({ imageUrl, title, link }: BannerProps) {
   const content = (
     <div className="relative h-64 md:h-96 rounded-lg overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600">
       {imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageUrl}
           alt={title || "Banner"}

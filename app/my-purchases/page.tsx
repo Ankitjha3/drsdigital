@@ -35,7 +35,7 @@ export default async function MyPurchasesPage() {
 
         {orders.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <p className="text-gray-500 mb-4">You haven't made any purchases yet.</p>
+            <p className="text-gray-500 mb-4">You haven&apos;t made any purchases yet.</p>
             <Link
               href="/shop"
               className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"

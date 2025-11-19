@@ -15,7 +15,17 @@ export default function CheckoutPage() {
   const params = useParams();
   const orderId = params.orderId as string;
   
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<{
+    id: string;
+    totalAmount: number;
+    status: string;
+    items: Array<{
+      id: string;
+      quantity: number;
+      price: number;
+      product: { title: string };
+    }>;
+  } | null>(null);
   const [error, setError] = useState("");
   const [upiQr, setUpiQr] = useState<string>("");
 
@@ -76,7 +86,7 @@ export default function CheckoutPage() {
               <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
               
               <div className="space-y-4 mb-6">
-                {order.items.map((item: any) => (
+                {order.items.map((item) => (
                   <div key={item.id} className="flex justify-between items-center border-b pb-4">
                     <div>
                       <h3 className="font-semibold">{item.product.title}</h3>

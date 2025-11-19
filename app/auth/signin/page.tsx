@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -33,7 +33,7 @@ export default function SignInPage() {
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -101,6 +101,21 @@ export default function SignInPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="container mx-auto px-4 py-12 text-center">
+          <p>Loading...</p>
+        </div>
+      </main>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 }
 

@@ -25,7 +25,9 @@ export default function NewProductPage() {
   const [fileUrl, setFileUrl] = useState("");
 
   if (!session || !session.user.isAdmin) {
-    router.push("/");
+    if (typeof window !== 'undefined') {
+      router.push("/");
+    }
     return null;
   }
 
@@ -59,7 +61,7 @@ export default function NewProductPage() {
       } else {
         router.push("/admin/products");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -147,7 +149,7 @@ export default function NewProductPage() {
               <label className="block text-sm font-medium mb-2">
                 Product Image
               </label>
-              <UploadButton<OurFileRouter>
+              <UploadButton<OurFileRouter, "productImage">
                 endpoint="productImage"
                 onClientUploadComplete={(res) => {
                   if (res && res[0]) {
@@ -160,6 +162,7 @@ export default function NewProductPage() {
               />
               {imageUrl && (
                 <div className="mt-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imageUrl} alt="Preview" className="w-32 h-32 object-cover rounded" />
                 </div>
               )}
@@ -169,7 +172,7 @@ export default function NewProductPage() {
               <label className="block text-sm font-medium mb-2">
                 Digital File (ZIP/PDF)
               </label>
-              <UploadButton<OurFileRouter>
+              <UploadButton<OurFileRouter, "productFile">
                 endpoint="productFile"
                 onClientUploadComplete={(res) => {
                   if (res && res[0]) {
